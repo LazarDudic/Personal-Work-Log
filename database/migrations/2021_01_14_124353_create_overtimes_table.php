@@ -18,8 +18,7 @@ class CreateOvertimesTable extends Migration
             $table->foreignId('job_id')
                 ->constrained()
                 ->onDelete('cascade');
-            $table->unsignedSmallInteger('percentage')->nullable();
-            $table->unsignedDecimal('currency_amount', 8, 2)->nullable();
+            $table->unsignedDecimal('overtime_pay', 8, 2)->nullable();
             $table->string('calculated_by');
             $table->unsignedSmallInteger('starting_hour');
         });

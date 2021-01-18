@@ -18,11 +18,12 @@ class CreateTrackingTable extends Migration
             $table->foreignId('job_id')
                 ->constrained()
                 ->onDelete('cascade');
-            $table->boolean('overtime');
-            $table->boolean('shift_differential');
-            $table->boolean('tips');
-            $table->boolean('bonuses');
-            $table->boolean('expenses');
+            $table->boolean('wage')->default(0);
+            $table->boolean('overtime')->default(0);
+            $table->boolean('shift_differential')->default(0);
+            $table->boolean('tips')->default(0);
+            $table->boolean('bonuses')->default(0);
+            $table->boolean('expenses')->default(0);
         });
     }
 
