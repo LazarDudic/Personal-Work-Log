@@ -26,7 +26,7 @@ class CreateJobRequest extends FormRequest
         $differentialDays = ['nullable', 'array'];
         if ($this->shift_differential && !$this->start_at) {
             // start_at/finish_at or shift_differential is required if shift differential is checked
-            array_push($differentialDays, 'required_if:shift_differential,on');
+            array_push($differentialDays, 'required_if:shift_differential,1');
         }
 
         $percentage = ['nullable', 'integer', 'min:1'];
