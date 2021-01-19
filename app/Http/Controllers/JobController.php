@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\Jobs\CreateJobRequest;
 use App\Models\Job;
 use Illuminate\Http\Request;
+use Symfony\Component\HttpFoundation\Response;
 
 class JobController extends Controller
 {
@@ -38,7 +39,6 @@ class JobController extends Controller
      */
     public function store(CreateJobRequest $request)
     {
-//        dd($request->all());
         $job = Job::create([
             'user_id' => auth()->user()->id,
             'title' => $request->title
@@ -46,19 +46,13 @@ class JobController extends Controller
 
         $job->storeCharacteristics($request);
 
+        if (Job::all()->count() == 1) {
+            $job->current_job = 1;
+            $job->save();
+        }
+
         return redirect(route('jobs.index'))->withSuccess('Job added successfully.');
 
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
     }
 
     /**
@@ -77,8 +71,8 @@ class JobController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param \Illuminate\Http\Request $request
+     * @param Job $job
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, Job $job)
@@ -92,13 +86,38 @@ class JobController extends Controller
      * Remove the specified resource from storage.
      *
      * @param Job $job
-     * @return void
+     * @return \Illuminate\Http\Response
      * @throws \Exception
      */
     public function destroy(Job $job)
     {
+        if ($job->current_job && Job::all()->count() > 1) {
+            return back()->withErrors('Please change your current job before delete.');
+        }
         $job->delete();
 
         return back()->withSuccess('Job deleted successfully.');
     }
+
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param Job $job
+     * @return \Illuminate\Http\Response
+     */
+    public function addCurrentJob(Job $job)
+    {
+        abort_if($job->current_job == 1, Response::HTTP_FORBIDDEN);
+
+        $currentJob = Job::where('current_job', 1)->first();
+        $currentJob->current_job = 0;
+        $currentJob->save();
+
+        $job->current_job = 1;
+        $job->save();
+
+        return back()->withSuccess($job->title . ' is a new current job.');
+    }
+
+
 }

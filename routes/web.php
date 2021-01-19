@@ -19,6 +19,8 @@ Route::get('/', function () {
 
 Route::middleware('auth')->group(function () {
     Route::resource('jobs', App\Http\Controllers\JobController::class);
+    Route::put('jobs/{job}/current-job', [App\Http\Controllers\JobController::class, 'addCurrentJob'])
+        ->name('jobs.current.update');
 });
 
 Auth::routes();

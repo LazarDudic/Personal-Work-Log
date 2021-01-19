@@ -18,6 +18,7 @@
                                 <tr>
                                     <th>#</th>
                                     <th>Title</th>
+                                    <th>Current</th>
                                     <th width="30%">Action</th>
                                 </tr>
                             </thead>
@@ -25,6 +26,7 @@
                                 <tr>
                                     <th>#</th>
                                     <th>Title</th>
+                                    <th>Current</th>
                                     <th>Action</th>
 
                                 </tr>
@@ -34,13 +36,25 @@
                                 <tr>
                                     <th>{{ $loop->iteration }}</th>
                                     <td>{{ $job->title }}</td>
+                                    <td>
+                                        @if($job->current_job)
+                                            <p class='text-success'>Current Job</p>
+                                        @else
+                                            <form action="{{ route('jobs.current.update', $job->id) }}" method="POST">
+                                                @csrf
+                                                @method('PUT')
+                                                <button class="btn"><i class="fas fa-check-circle fa-lg"></i></button>
+                                            </form>
+
+                                        @endif
+                                    </td>
                                     <td class="d-flex">
                                         <a href="{{ route('jobs.edit', $job->id) }}" class="btn btn-info btn-sm mr-1">Edit</a>
                                         <form action="{{ route('jobs.destroy', $job->id) }}" method="POST">
                                             @csrf
                                             @method('DELETE')
                                             <button type="submit"
-                                                    class="btn btn-danger btn-sm"
+                                                    class="btn btn-danger btn-sm flex-grow-1"
                                                     onclick="confirm('Are you sure you want to delete this job?') || event.stopImmediatePropagation()"
                                             >Delete
                                             </button>
