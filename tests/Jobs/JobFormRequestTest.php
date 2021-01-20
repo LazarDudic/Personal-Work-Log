@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Job;
+namespace Tests\Jobs;
 
 use App\Http\Requests\Jobs\CreateJobRequest;
 use Illuminate\Support\Facades\Validator;

@@ -34,14 +34,14 @@ class JobController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param CreateJobRequest $request
      * @return \Illuminate\Http\Response
      */
     public function store(CreateJobRequest $request)
     {
         $job = Job::create([
-            'user_id' => auth()->user()->id,
-            'title' => $request->title
+            'title' => $request->title,
+            'user_id' => auth()->user()->id
         ]);
 
         $job->storeCharacteristics($request);
@@ -85,13 +85,14 @@ class JobController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param Job $job
+     * @param $id
      * @return \Illuminate\Http\Response
-     * @throws \Exception
      */
-    public function destroy(Job $job)
+    public function destroy($id)
     {
-        if ($job->current_job && Job::all()->count() > 1) {
+        $job = Job::findOrFail($id);
+
+        if ($job->current_job == 1 && Job::all()->count() > 1) {
             return back()->withErrors('Please change your current job before delete.');
         }
         $job->delete();
@@ -102,11 +103,12 @@ class JobController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param Job $job
+     * @param $id
      * @return \Illuminate\Http\Response
      */
-    public function addCurrentJob(Job $job)
+    public function UpdateCurrentJob($id)
     {
+        $job = Job::find($id);
         abort_if($job->current_job == 1, Response::HTTP_FORBIDDEN);
 
         $currentJob = Job::where('current_job', 1)->first();
