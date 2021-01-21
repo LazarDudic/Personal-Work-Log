@@ -102,5 +102,18 @@ class CurrentJobTest extends TestCase
         $this->assertEquals(1, $job2->current_job);
     }
 
+    /** @test */
+    public function current_job_id_is_accessible_only_for_auth_user()
+    {
+        $response = $this->get('/');
+
+        $response->assertViewMissing('current_job_id');
+
+        $user = User::factory()->create();
+        $this->actingAs($user);
+        $response = $this->get('/');
+
+        $response->assertViewHas('current_job_id');
+    }
 
 }
