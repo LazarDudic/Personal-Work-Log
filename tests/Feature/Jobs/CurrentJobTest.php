@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Jobs;
+namespace Tests\Feature\Jobs;
 
 use App\Models\Job;
 use App\Models\User;
@@ -13,9 +13,9 @@ class CurrentJobTest extends TestCase
     public function first_job_is_automatically_current()
     {
         $user = User::factory()->create();
-        $this->withoutMiddleware();
+        $this->actingAs($user);
 
-        $this->actingAs($user)->post(route('jobs.store'), [
+        $this->post(route('jobs.store'), [
             'title' => $this->faker->jobTitle
         ]);
 
@@ -28,9 +28,9 @@ class CurrentJobTest extends TestCase
     public function every_job_after_fist_one_is_not_current()
     {
         $user = User::factory()->create();
-        $this->withoutMiddleware();
+        $this->actingAs($user);
 
-        $this->actingAs($user)->post(route('jobs.store'), [
+        $this->post(route('jobs.store'), [
             'title' => $this->faker->jobTitle
         ]);
         $this->actingAs($user)->post(route('jobs.store'), [
@@ -47,7 +47,7 @@ class CurrentJobTest extends TestCase
     public function delete_current_job_passes_with_1_job_in_database()
     {
         $user = User::factory()->create();
-        $this->withoutMiddleware();
+        $this->actingAs($user);
 
         $job = $user->jobs()->create([
             'title' => $this->faker->jobTitle,
@@ -63,7 +63,7 @@ class CurrentJobTest extends TestCase
     {
 
         $user = User::factory()->create();
-        $this->withoutMiddleware();
+        $this->actingAs($user);
 
         $job1 = $user->jobs()->create([
             'title' => $this->faker->jobTitle,
@@ -82,7 +82,7 @@ class CurrentJobTest extends TestCase
     public function method_UpdateCurrentJob_swap_current_job_values_passes()
     {
         $user = User::factory()->create();
-        $this->withoutMiddleware();
+        $this->actingAs($user);
 
         $job1 = $user->jobs()->create([
             'title' => $this->faker->jobTitle,
