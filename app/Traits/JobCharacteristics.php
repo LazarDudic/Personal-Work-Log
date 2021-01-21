@@ -2,6 +2,10 @@
 
 namespace App\Traits;
 
+use App\Models\Overtime;
+use App\Models\ShiftDifferential;
+use App\Models\Wage;
+
 trait JobCharacteristics
 {
 
@@ -9,15 +13,25 @@ trait JobCharacteristics
      * Store all requested Characteristics to database
      *
      * @param $request
+     * @param int $jobId
      */
-    public function storeCharacteristics($request)
+    public function storeCharacteristics($request, int $jobId)
     {
         if ($request->hourly_rate) {
             $this->wage()->create($request->only(['hourly_rate', 'time_length', 'pay_period']));
+        } else {
+            Wage::create([
+                'job_id' => $jobId
+            ]);
         }
+
 
         if ($request->starting_hour) {
             $this->overtime()->create($request->only(['overtime_pay', 'calculated_by', 'starting_hour']));
+        }  else {
+            Overtime::create([
+                'job_id' => $jobId
+            ]);
         }
 
         if ($request->currency_amount || $request->percentage) {
@@ -32,6 +46,10 @@ trait JobCharacteristics
             }
 
             $this->shiftDifferential()->create($data);
+        }  else {
+            ShiftDifferential::create([
+                'job_id' => $jobId
+            ]);
         }
 
         $this->tracking()->create(

@@ -44,7 +44,7 @@ class JobController extends Controller
             'user_id' => auth()->user()->id
         ]);
 
-        $job->storeCharacteristics($request);
+        $job->storeCharacteristics($request, $job->id);
 
         if (Job::all()->count() == 1) {
             $job->current_job = 1;
