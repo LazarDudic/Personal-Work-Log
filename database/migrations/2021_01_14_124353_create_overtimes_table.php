@@ -19,8 +19,8 @@ class CreateOvertimesTable extends Migration
                 ->constrained()
                 ->onDelete('cascade');
             $table->unsignedDecimal('overtime_pay', 8, 2)->nullable();
-            $table->string('calculated_by');
-            $table->unsignedSmallInteger('starting_hour');
+            $table->string('calculated_by')->nullable();
+            $table->unsignedSmallInteger('starting_hour')->nullable();
         });
     }
 
