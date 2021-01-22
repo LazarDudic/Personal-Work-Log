@@ -20,13 +20,22 @@ Auth::routes();
 
 
 Route::middleware('auth')->group(function () {
+    //Jobs
     Route::resource('jobs', App\Http\Controllers\JobController::class);
     Route::patch('jobs/{job}/current-job', [App\Http\Controllers\JobController::class, 'UpdateCurrentJob'])
         ->name('jobs.current.update');
 
+    // Wages
+    Route::get('wages/{job}/edit', [App\Http\Controllers\WageController::class, 'edit'])
+        ->name('wages.edit');
+    Route::patch('wages/{job}', [App\Http\Controllers\WageController::class, 'update'])
+        ->name('wages.update');
 
-    Route::get('wages/{job}/edit', [App\Http\Controllers\WageController::class, 'edit'])->name('wages.edit');
-    Route::patch('wages/{job}', [App\Http\Controllers\WageController::class, 'update'])->name('wages.update');
+    //Overtime
+    Route::get('overtime/{job}/edit', [App\Http\Controllers\OvertimeController::class, 'edit'])
+        ->name('overtime.edit');
+    Route::patch('overtime/{job}', [App\Http\Controllers\OvertimeController::class, 'update'])
+        ->name('overtime.update');
 
 });
 

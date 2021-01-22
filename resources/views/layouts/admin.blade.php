@@ -64,23 +64,25 @@
 
         <!-- Nav Item - Pages Collapse Menu -->
         <li class="nav-item">
-            <a class="nav-link collapsed" href="{{ route('jobs.index') }}">
+            <a class="nav-link" href="{{ route('jobs.index') }}">
                 <i class="fas fa-user-md"></i>
                 <span>Jobs</span>
             </a>
         </li>
         @isset($current_job_id)
             <li class="nav-item">
-                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo"
+                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseJob"
                    aria-expanded="true" aria-controls="collapseTwo">
                     <i class="fas fa-cogs"></i>
                     <span>Current Job Settings</span>
                 </a>
-                <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+                <div id="collapseJob" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
                         <a class="collapse-item" href="{{ route('wages.edit', $current_job_id) }}">Wage</a>
+                        <a class="collapse-item" href="{{ route('overtime.edit', $current_job_id) }}">Overtime</a>
                     </div>
                 </div>
+
             </li>
         @endisset
         <!-- Divider -->
