@@ -69,20 +69,20 @@
                 <span>Jobs</span>
             </a>
         </li>
-        <li class="nav-item">
-            <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo"
-               aria-expanded="true" aria-controls="collapseTwo">
-                <i class="fas fa-cogs"></i>
-                <span>Current Job Settings</span>
-            </a>
-            <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
-                <div class="bg-white py-2 collapse-inner rounded">
-                    <a class="collapse-item" href="#">Exemple</a>
+        @isset($current_job_id)
+            <li class="nav-item">
+                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo"
+                   aria-expanded="true" aria-controls="collapseTwo">
+                    <i class="fas fa-cogs"></i>
+                    <span>Current Job Settings</span>
+                </a>
+                <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+                    <div class="bg-white py-2 collapse-inner rounded">
+                        <a class="collapse-item" href="{{ route('wages.edit', $current_job_id) }}">Wage</a>
+                    </div>
                 </div>
-            </div>
-        </li>
-
-
+            </li>
+        @endisset
         <!-- Divider -->
         <hr class="sidebar-divider d-none d-md-block">
 
