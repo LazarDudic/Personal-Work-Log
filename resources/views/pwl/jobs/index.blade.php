@@ -42,7 +42,7 @@
                                         @else
                                             <form action="{{ route('jobs.current.update', $job->id) }}" method="POST">
                                                 @csrf
-                                                @method('PUT')
+                                                @method('PATCH')
                                                 <button class="btn"><i class="fas fa-check-circle fa-lg"></i></button>
                                             </form>
 

@@ -7,7 +7,7 @@
         @include('partials.messages')
         <form action="{{ route('jobs.update', $job->id)}}" method="POST">
             @csrf
-            @method('PUT')
+            @method('PATCH')
             <div class="form-group">
                 <label for="">Edit Title</label>
                 <input type="text" name="title" class="form-control w-75" value="{{ $job->title }}">

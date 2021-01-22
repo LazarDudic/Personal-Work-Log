@@ -94,7 +94,7 @@ class CurrentJobTest extends TestCase
             'current_job' => 0
         ]);
 
-        $this->actingAs($user)->put(route('jobs.current.update', $job2->id));
+        $this->patch(route('jobs.current.update', $job2->id));
         $job1 = Job::find($job1->id);
         $job2 = Job::find($job2->id);
 

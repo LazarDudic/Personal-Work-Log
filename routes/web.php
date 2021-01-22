@@ -21,8 +21,13 @@ Auth::routes();
 
 Route::middleware('auth')->group(function () {
     Route::resource('jobs', App\Http\Controllers\JobController::class);
-    Route::put('jobs/{job}/current-job', [App\Http\Controllers\JobController::class, 'UpdateCurrentJob'])
+    Route::patch('jobs/{job}/current-job', [App\Http\Controllers\JobController::class, 'UpdateCurrentJob'])
         ->name('jobs.current.update');
+
+
+    Route::get('wages/{job}/edit', [App\Http\Controllers\WageController::class, 'edit'])->name('wages.edit');
+    Route::patch('wages/{job}', [App\Http\Controllers\WageController::class, 'update'])->name('wages.update');
+
 });
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
