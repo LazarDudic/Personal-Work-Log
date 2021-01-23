@@ -78,8 +78,15 @@
                 </a>
                 <div id="collapseJob" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
-                        <a class="collapse-item" href="{{ route('wages.edit', $current_job_id) }}">Wage</a>
-                        <a class="collapse-item" href="{{ route('overtime.edit', $current_job_id) }}">Overtime</a>
+                        <a class="collapse-item" href="{{ route('wages.edit', $current_job_id) }}">
+                            Wage
+                        </a>
+                        <a class="collapse-item" href="{{ route('overtime.edit', $current_job_id) }}">
+                            Overtime
+                        </a>
+                        <a class="collapse-item" href="{{ route('shift-differentials.edit', $current_job_id) }}">
+                            Shift Differential
+                        </a>
                     </div>
                 </div>
 

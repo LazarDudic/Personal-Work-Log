@@ -37,6 +37,12 @@ Route::middleware('auth')->group(function () {
     Route::patch('overtime/{job}', [App\Http\Controllers\OvertimeController::class, 'update'])
         ->name('overtime.update');
 
+    // Shift Differential
+    Route::get('shift-differentials/{job}/edit', [App\Http\Controllers\ShiftDifferentialController::class, 'edit'])
+        ->name('shift-differentials.edit');
+    Route::patch('shift-differentials/{job}', [App\Http\Controllers\ShiftDifferentialController::class, 'update'])
+        ->name('shift-differentials.update');
+
 });
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
