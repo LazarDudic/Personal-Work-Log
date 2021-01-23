@@ -3,13 +3,11 @@
 namespace Tests\Feature\Jobs;
 
 use App\Models\Job;
-use App\Models\Tracking;
 use App\Models\User;
 use Tests\TestCase;
 
 class OvertimeTest extends TestCase
 {
-    /**
     /** @test */
     public function starting_hour_is_required()
     {
@@ -100,18 +98,6 @@ class OvertimeTest extends TestCase
 
         $job = Job::first();
         $this->assertEquals(1, $job->tracking->overtime);
-    }
-
-    private function createJob() : Job
-    {
-        $user = User::factory()->create();
-        $this->actingAs($user);
-        $this->post(route('jobs.store'), [
-            'title' => $this->faker->jobTitle,
-            'user_id' => $user->id
-        ]);
-
-        return Job::first();
     }
 
 }

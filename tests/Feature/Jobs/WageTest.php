@@ -112,16 +112,4 @@ class WageTest extends TestCase
         $this->assertEquals(1, $job->tracking->wage);
     }
 
-    private function createJob() : Job
-    {
-        $user = User::factory()->create();
-        $this->actingAs($user);
-        $this->post(route('jobs.store'), [
-            'title' => $this->faker->jobTitle,
-            'user_id' => $user->id
-        ]);
-
-        return Job::first();
-    }
-
 }
