@@ -89,7 +89,7 @@ class FormInput extends Component
                     <div class="d-lg-flex justify-content-center">
                     <span class="badge align-self-center">Overtime Pay</span>
                         <input type="number" name="overtime_pay" class="form-control w-50"
-                            min="0" value="' . old('overtime_pay') . '">
+                            min="0" step="any" value="' . old('overtime_pay') . '">
                     </div>
                 </div>
                 <div class="form-group d-lg-flex align-items-center">
@@ -149,7 +149,7 @@ class FormInput extends Component
                     <span class="badge align-self-end pb-3">Increase By</span>
                     <div class="mr-xl-2">
                         <span class="badge">Currency Amount</span>
-                        <input name="currency_amount" class="form-control" type="number"
+                        <input name="currency_amount" class="form-control" type="number" step="any"
                             value="' . old('currency_amount') . '">
                     </div>
                     <div>

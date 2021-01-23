@@ -22,7 +22,7 @@
                 <div class="d-lg-flex justify-content-center">
                     <span class="badge align-self-center">Overtime Pay</span>
                     <input type="number" name="overtime_pay" class="form-control w-50"
-                           min="0" value="{{ $overtime->overtime_pay }}">
+                           min="0" step="any" value="{{ $overtime->overtime_pay }}">
                 </div>
             </div>
             <div class="form-group d-lg-flex align-items-center">
