@@ -20,6 +20,12 @@ Auth::routes();
 
 
 Route::middleware('auth')->group(function () {
+    // User
+    Route::get('users/edit-timezone', [App\Http\Controllers\UserController::class, 'editTimeZone'])
+        ->name('users.edit-timezone');
+    Route::patch('users/update-timezone', [App\Http\Controllers\UserController::class, 'UpdateTimeZone'])
+        ->name('users.update-timezone');
+
     //Jobs
     Route::resource('jobs', App\Http\Controllers\JobController::class);
     Route::patch('jobs/{job}/current-job', [App\Http\Controllers\JobController::class, 'UpdateCurrentJob'])
