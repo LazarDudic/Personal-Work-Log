@@ -29,17 +29,4 @@ class Tracking extends Model
         $this->attributes['shift_differential'] = $shiftDifferential ? 1 : 0;
     }
 
-    public function setTipsAttribute($tips)
-    {
-        $this->attributes['tips'] = $tips ? 1 : 0;
-    }
-
-    public function setBonusesAttribute($bonuses)
-    {
-        $this->attributes['bonuses'] = $bonuses ? 1 : 0;
-    }    public function setExpensesAttribute($expenses)
-    {
-        $this->attributes['expenses'] = $expenses ? 1 : 0;
-    }
-
 }

@@ -63,6 +63,14 @@
         </div>
 
         <!-- Nav Item - Pages Collapse Menu -->
+        @isset($current_job_id)
+            <li class="nav-item">
+                <a class="nav-link" href="{{ route('shifts.create') }}">
+                    <i class="fas fa-user-md"></i>
+                    <span>Shift</span>
+                </a>
+            </li>
+        @endisset
         <li class="nav-item">
             <a class="nav-link" href="{{ route('jobs.index') }}">
                 <i class="fas fa-user-md"></i>
@@ -92,6 +100,9 @@
                         </a>
                         <a class="collapse-item" href="{{ route('shift-differentials.edit', $current_job_id) }}">
                             Shift Differential
+                        </a>
+                        <a class="collapse-item" href="{{ route('tracking.edit', $current_job_id) }}">
+                            Tracking
                         </a>
                     </div>
                 </div>
