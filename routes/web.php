@@ -50,7 +50,8 @@ Route::middleware('auth')->group(function () {
         ->name('shift-differentials.update');
 
     // Shifts
-    Route::resource('shifts', App\Http\Controllers\ShiftController::class);
+    Route::get('shifts/{job}/index', [App\Http\Controllers\ShiftController::class, 'index'])->name('shifts.index');
+    Route::resource('shifts', App\Http\Controllers\ShiftController::class)->only('create');
 
     // Tracking
     Route::get('tracking/{job}/edit', [App\Http\Controllers\TrackingController::class, 'edit'])

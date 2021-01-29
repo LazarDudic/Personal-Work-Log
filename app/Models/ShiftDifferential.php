@@ -24,5 +24,10 @@ class ShiftDifferential extends Model
                          : null;
     }
 
+    public function getDifferentialDaysAttribute($differentialDays)
+    {
+        return json_decode($differentialDays);
+    }
+
 }
 

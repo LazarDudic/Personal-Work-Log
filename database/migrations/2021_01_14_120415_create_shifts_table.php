@@ -18,17 +18,18 @@ class CreateShiftsTable extends Migration
             $table->foreignId('job_id')
                 ->constrained()
                 ->onDelete('cascade');
-            $table->timestamp('started_at');
-            $table->timestamp('finished_at')->useCurrent();
-            $table->time('break_time')->nullable();
+            $table->timestamp('started_at')->nullable();
+            $table->timestamp('finished_at')->nullable();
+            $table->unsignedInteger('break_minutes')->nullable();
             $table->unsignedDecimal('total_earnings', 8, 2)->nullable();
+            $table->unsignedInteger('total_working_minutes')->nullable();
             $table->unsignedDecimal('regular_earnings', 8, 2)->nullable();
             $table->unsignedDecimal('overtime_earnings', 8, 2)->nullable();
-            $table->time('overtime_hours')->nullable();
+            $table->unsignedInteger('overtime_minutes')->nullable();
             $table->unsignedDecimal('shift_differential_earnings', 8, 2)->nullable();
-            $table->time('shift_differential_hours')->nullable();
-            $table->unsignedDecimal('tips_earnings', 8, 2)->nullable();
-            $table->unsignedDecimal('bonuses_earnings', 8, 2)->nullable();
+            $table->unsignedInteger('shift_differential_minutes')->nullable();
+            $table->unsignedDecimal('tips', 8, 2)->nullable();
+            $table->unsignedDecimal('bonuses', 8, 2)->nullable();
             $table->unsignedDecimal('expenses', 8, 2)->nullable();
         });
     }

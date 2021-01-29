@@ -67,7 +67,13 @@
             <li class="nav-item">
                 <a class="nav-link" href="{{ route('shifts.create') }}">
                     <i class="fas fa-user-md"></i>
-                    <span>Shift</span>
+                    <span>New Shift</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="{{ route('shifts.index', $current_job_id) }}">
+                    <i class="fas fa-user-md"></i>
+                    <span>Shifts</span>
                 </a>
             </li>
         @endisset
