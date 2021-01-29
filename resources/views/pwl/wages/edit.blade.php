@@ -10,23 +10,24 @@
             @method('PATCH')
             @include('partials.messages')
 
-            <hr><h4 class="text-info">Wage</h4>
+            <h4 class="text-info text-center">Wage</h4><hr>
             <div class="form-group d-lg-flex justify-content-between">
                 <div class="custom-control custom-checkbox align-self-center">
                     <input type="checkbox" name="wage" class="custom-control-input"
                            id="wage" {{ $job->tracking->wage ? 'checked' : '' }}>
                     <label class="custom-control-label" for="wage">
-                        <span class="badge">Keep track of wage</span>
+                        <span class="badge">Keep track of wage.</span>
                     </label>
                 </div>
                 <div class="d-lg-flex justify-content-center">
-                    <span class="badge align-self-center">Hourly Rate</span>
+                    <span class="badge align-self-center">Hourly Rate:</span>
                     <input type="number" name="hourly_rate" class="form-control w-50" min="1" step="any"
                            value="{{ $wage->hourly_rate }}">
                 </div>
             </div>
+            <hr>
             <div class="form-group d-lg-flex align-items-center">
-                <span class="badge">Pay Period</span>
+                <span class="badge">Pay Period:</span>
                 <input type="number" name="time_length" class="form-control w-50 mr-2"
                        min="1" value="{{ $wage->time_length }}">
                 <select name="pay_period" class="custom-select custom-select">
@@ -42,10 +43,19 @@
                     </option>
                 </select>
             </div>
+            <hr>
+            <div class="form-group d-flex align-items-center">
+                <span class="badge">Pay Period Start:</span>
+                <input type="date" class="form-control" name="pay_period_start_at"
+                    value="{{ $wage->pay_period_start_at }}">
+            </div>
+            <hr>
 
-            <button type="submit" class="btn  btn-primary float-right">Submit</button>
+            <button type="submit" class="btn  btn-primary">Save</button>
 
         </form>
     </div>
 
 @endsection
+
+

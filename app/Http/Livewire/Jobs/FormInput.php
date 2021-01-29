@@ -59,6 +59,11 @@ class FormInput extends Component
                         <option value="twiceEveryMonth" '.$twiceEveryMonth.'>1-15, 16-end</option>
                     </select>
                 </div>
+                <div class="form-group d-flex align-items-center">
+                    <span class="badge">Pay Period Start:</span>
+                    <input type="date" class="form-control" name="pay_period_start_at"
+                        value="' . old('pay_period_start_at') . '">
+                </div>
                 ';
         }
     }
@@ -77,7 +82,7 @@ class FormInput extends Component
             $shift     = old('calculated_by') == 'shift' ? 'selected' : '';
 
             $this->requestedInputs[$this->overtime] = '
-                  <hr><h4 class="text-info">Overtime</h4>
+                  <hr><h4 class="text-info ">Overtime</h4>
                     <div class="form-group d-lg-flex justify-content-between">
                     <div class="custom-control custom-checkbox align-self-center">
                         <input type="checkbox" name="overtime" class="custom-control-input"
@@ -87,7 +92,7 @@ class FormInput extends Component
                         </label>
                     </div>
                     <div class="d-lg-flex justify-content-center">
-                    <span class="badge align-self-center">Overtime Pay</span>
+                    <span class="badge align-self-center">Overtime Pay <br> Increased by</span>
                         <input type="number" name="overtime_pay" class="form-control w-50"
                             min="0" step="any" value="' . old('overtime_pay') . '">
                     </div>

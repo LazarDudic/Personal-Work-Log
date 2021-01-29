@@ -7,6 +7,7 @@
             @method('PATCH')
             @include('partials.messages')
             <h2 class="text-info text-center">Tracking</h2>
+            <hr>
 
             <div class="custom-control custom-checkbox">
                 <input type="hidden" name="tips" value="0">
@@ -16,6 +17,8 @@
                     <span class="badge">Keep track of tips</span>
                 </label>
             </div>
+            <hr>
+
             <div class="custom-control custom-checkbox">
                 <input type="hidden" name="bonuses" value="0">
                 <input type="checkbox" name="bonuses" class="custom-control-input"
@@ -24,6 +27,7 @@
                     <span class="badge">Keep track of bonuses</span>
                 </label>
             </div>
+            <hr>
             <div class="custom-control custom-checkbox">
                 <input type="hidden" name="expenses" value="0">
                 <input type="checkbox" name="expenses" class="custom-control-input"
@@ -32,6 +36,7 @@
                     <span class="badge">Keep Track of expenses</span>
                 </label>
             </div>
+            <hr>
             <button type="submit" class="btn  btn-primary mt-3">Save</button>
         </form>
     </div>

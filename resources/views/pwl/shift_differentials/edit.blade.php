@@ -10,7 +10,7 @@
             @method('PATCH')
             @include('partials.messages')
 
-            <hr><h4 class="text-info">Shift Differential</h4>
+            <h4 class="text-info text-center">Shift Differential</h4><hr>
             <div class="form-group d-lg-flex justify-content-between">
                 <div class="custom-control custom-checkbox align-self-center">
                     <input type="checkbox" name="shift_differential" class="custom-control-input"
@@ -20,6 +20,7 @@
                     </label>
                 </div>
             </div>
+            <hr>
             <div class="form-group d-flex">
                 <div class="mr-2">
                     <span class="badge">Starts At</span>
@@ -30,6 +31,7 @@
                     <input type="time" name="finish_at" class="form-control" value="{{ $shiftDifferential->finish_at }}">
                 </div>
             </div>
+            <hr>
             <div class="form-group d-flex">
                 <span class="badge align-self-end pb-3">Increase By</span>
                 <div class="mr-xl-2">
@@ -43,6 +45,7 @@
                            value="{{ $shiftDifferential->percentage }}">
                 </div>
             </div>
+            <hr>
             <div class="form-group">
                 <h5><span class="badge">Whole Days Differential</span></h5>
 
@@ -96,6 +99,7 @@
                     </label>
                 </div>
             </div>
+            <hr>
 
             <button type="submit" class="btn  btn-primary float-right">Submit</button>
 

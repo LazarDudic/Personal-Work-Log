@@ -20,6 +20,7 @@ class CreateWagesTable extends Migration
                 ->onDelete('cascade');
             $table->unsignedDecimal('hourly_rate', 8, 2)->nullable();
             $table->string('pay_period')->nullable();
+            $table->date('pay_period_start_at')->nullable();
             $table->unsignedInteger('time_length')->nullable();
         });
     }

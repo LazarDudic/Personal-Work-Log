@@ -17,15 +17,16 @@ trait JobCharacteristics
      */
     public function storeCharacteristics($request, int $jobId)
     {
+        // Wage
         if ($request->hourly_rate) {
-            $this->wage()->create($request->only(['hourly_rate', 'time_length', 'pay_period']));
+            $this->wage()->create($request->only(['hourly_rate', 'time_length', 'pay_period', 'pay_period_start_at']));
         } else {
             Wage::create([
                 'job_id' => $jobId
             ]);
         }
 
-
+        // Overtime
         if ($request->starting_hour) {
             $this->overtime()->create($request->only(['overtime_pay', 'calculated_by', 'starting_hour']));
         }  else {
@@ -34,6 +35,7 @@ trait JobCharacteristics
             ]);
         }
 
+        // Shift Differential
         if ($request->currency_amount || $request->percentage) {
             $data = $request->only(['start_at', 'finish_at', 'currency_amount', 'percentage']);
 
@@ -52,6 +54,7 @@ trait JobCharacteristics
             ]);
         }
 
+        // Tracking
         $this->tracking()->create(
             $request->only('wage', 'overtime', 'shift_differential', 'tips', 'bonuses', 'expenses')
         );

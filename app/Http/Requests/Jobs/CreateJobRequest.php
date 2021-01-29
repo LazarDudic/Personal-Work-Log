@@ -36,14 +36,15 @@ class CreateJobRequest extends FormRequest
         }
 
         return [
-            'title'              => ['required', 'string', 'max:70'],
-            'wage'               => ['nullable'],
-            'hourly_rate'        => ['nullable', 'numeric', 'required_if:wage,1', 'min:1'],
-            'time_length'        => ['nullable', 'integer'],
-            'pay_period'         => ['nullable', 'in:week,month,day,twiceEveryMonth'],
-            'overtime'           => ['nullable'],
-            'overtime_pay'       => ['nullable', 'numeric', 'required_if:overtime,1', 'min:1'],
-            'starting_hour'      => [
+            'title'               => ['required', 'string', 'max:70'],
+            'wage'                => ['nullable'],
+            'hourly_rate'         => ['nullable', 'numeric', 'required_if:wage,1', 'min:1'],
+            'time_length'         => ['nullable', 'integer'],
+            'pay_period'          => ['nullable', 'in:week,month,day,twiceEveryMonth'],
+            'pay_period_start_at' => ['nullable', 'date', 'required_if:wage,1'],
+            'overtime'            => ['nullable'],
+            'overtime_pay'        => ['nullable', 'numeric', 'required_if:overtime,1', 'min:1'],
+            'starting_hour'       => [
                 'nullable',
                 'integer',
                 'required_with:overtime_pay,numeric',
@@ -72,6 +73,7 @@ class CreateJobRequest extends FormRequest
     {
         return [
             'hourly_rate.required_if' => 'The Hourly Rate field is required when Wage is on.',
+            'pay_period_start_at.required_if' => 'The Pay Period Start field is required when Wage is on.',
             'starting_hour.required_with' => 'The Starting Hour field is required when Overtime Pay is present.',
             'overtime_pay.required_if' => 'The Overtime Pay field is required when Overtime is on.',
             'calculated_by.required_with' => 'The Calculated By field is required when Starting Hour is present.',

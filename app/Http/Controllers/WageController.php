@@ -36,7 +36,7 @@ class WageController extends Controller
     {
         $job->tracking->update(['wage' => $request->wage]);
 
-        $job->wage()->update($request->only('hourly_rate', 'time_length', 'pay_period'));
+        $job->wage()->update($request->only('hourly_rate', 'time_length', 'pay_period', 'pay_period_start_at'));
 
         return back()->withSuccess('Wage updated successfully.');
     }
