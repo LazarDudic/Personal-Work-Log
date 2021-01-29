@@ -19,9 +19,9 @@ class CreateWagesTable extends Migration
                 ->constrained()
                 ->onDelete('cascade');
             $table->unsignedDecimal('hourly_rate', 8, 2)->nullable();
+            $table->unsignedInteger('time_length')->nullable();
             $table->string('pay_period')->nullable();
             $table->date('pay_period_start_at')->nullable();
-            $table->unsignedInteger('time_length')->nullable();
         });
     }
 

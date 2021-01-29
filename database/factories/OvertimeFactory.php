@@ -2,17 +2,17 @@
 
 namespace Database\Factories;
 
-use App\Models\Job;
+use App\Models\Overtime;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
-class JobFactory extends Factory
+class OvertimeFactory extends Factory
 {
     /**
      * The name of the factory's corresponding model.
      *
      * @var string
      */
-    protected $model = Job::class;
+    protected $model = Overtime::class;
 
     /**
      * Define the model's default state.
@@ -22,9 +22,10 @@ class JobFactory extends Factory
     public function definition()
     {
         return [
-            'title' => $this->faker->jobTitle,
-            'user_id' => 1,
-            'current_job' => 1,
+            'job_id' => 1,
+            'overtime_pay' => 3,
+            'calculated_by' => 'shift',
+            'starting_hour' => 8,
         ];
     }
 }

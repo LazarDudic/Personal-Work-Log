@@ -2,17 +2,17 @@
 
 namespace Database\Factories;
 
-use App\Models\Job;
+use App\Models\ShiftDifferential;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
-class JobFactory extends Factory
+class ShiftDifferentialFactory extends Factory
 {
     /**
      * The name of the factory's corresponding model.
      *
      * @var string
      */
-    protected $model = Job::class;
+    protected $model = ShiftDifferential::class;
 
     /**
      * Define the model's default state.
@@ -22,9 +22,12 @@ class JobFactory extends Factory
     public function definition()
     {
         return [
-            'title' => $this->faker->jobTitle,
-            'user_id' => 1,
-            'current_job' => 1,
+            'job_id' => 1,
+            'start_at' => '22:00:00',
+            'finish_at' => '07:00:00',
+            'differential_days' => null,
+            'percentage' => null,
+            'currency_amount' => 3,
         ];
     }
 }

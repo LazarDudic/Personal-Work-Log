@@ -2,17 +2,18 @@
 
 namespace Database\Factories;
 
-use App\Models\Job;
+use App\Models\Model;
+use App\Models\Tracking;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
-class JobFactory extends Factory
+class TrackingFactory extends Factory
 {
     /**
      * The name of the factory's corresponding model.
      *
      * @var string
      */
-    protected $model = Job::class;
+    protected $model = Tracking::class;
 
     /**
      * Define the model's default state.
@@ -22,9 +23,13 @@ class JobFactory extends Factory
     public function definition()
     {
         return [
-            'title' => $this->faker->jobTitle,
-            'user_id' => 1,
-            'current_job' => 1,
+            'job_id' => 1,
+            'wage' => 1,
+            'overtime' => 1,
+            'shift_differential' => 1,
+            'tips' => 1,
+            'bonuses' => 1,
+            'expenses' => 1,
         ];
     }
 }
