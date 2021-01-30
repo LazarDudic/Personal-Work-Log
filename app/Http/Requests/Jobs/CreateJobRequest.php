@@ -41,7 +41,7 @@ class CreateJobRequest extends FormRequest
             'hourly_rate'         => ['nullable', 'numeric', 'required_if:wage,1', 'min:1'],
             'time_length'         => ['nullable', 'integer'],
             'pay_period'          => ['nullable', 'in:week,month,day,twiceEveryMonth'],
-            'pay_period_start_at' => ['nullable', 'date', 'required_if:wage,1'],
+            'pay_period_start_at' => ['nullable', 'date', 'required_if:pay_period,week,month'],
             'overtime'            => ['nullable'],
             'overtime_pay'        => ['nullable', 'numeric', 'required_if:overtime,1', 'min:1'],
             'starting_hour'       => [

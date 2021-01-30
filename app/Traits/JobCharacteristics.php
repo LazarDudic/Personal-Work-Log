@@ -19,6 +19,13 @@ trait JobCharacteristics
     {
         // Wage
         if ($request->hourly_rate) {
+            if ($request->pay_period == 'twiceEveryMonth') {
+                $request->merge([
+                    'time_length' => null,
+                    'pay_period_start_at' => null
+                ]);
+            }
+
             $this->wage()->create($request->only(['hourly_rate', 'time_length', 'pay_period', 'pay_period_start_at']));
         } else {
             Wage::create([

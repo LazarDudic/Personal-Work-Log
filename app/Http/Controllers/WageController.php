@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\Jobs\UpdateWageRequest;
 use App\Models\Job;
+use App\Models\Shift;
 use App\Models\Wage;
 
 class WageController extends Controller
@@ -36,9 +37,32 @@ class WageController extends Controller
     {
         $job->tracking->update(['wage' => $request->wage]);
 
+        if ($request->pay_period == 'twiceEveryMonth') {
+            $request->merge([
+                'time_length' => null,
+                'pay_period_start_at' => null
+            ]);
+        }
+
         $job->wage()->update($request->only('hourly_rate', 'time_length', 'pay_period', 'pay_period_start_at'));
 
         return back()->withSuccess('Wage updated successfully.');
     }
+
+    /**
+     * @param Job $job
+     */
+    public function getPayPeriod(Job $job)
+    {
+        $shifts = Shift::currentPayPeriod($job)->orderByDesc('started_at')->get();
+
+        return view('pwl.wages.pay-period', [
+            'shifts' => $shifts,
+            'job' => $job
+        ]);
+    }
+
+
+
 
 }

@@ -27,8 +27,8 @@ class UpdateWageRequest extends FormRequest
             'wage'                => ['nullable'],
             'hourly_rate'         => ['required', 'numeric', 'min:1',],
             'time_length'         => ['nullable', 'integer'],
-            'pay_period'          => ['required', 'in:week,month,day,twiceEveryMonth'],
-            'pay_period_start_at' => ['required', 'date'],
+            'pay_period'          => ['required', 'in:week,month,twiceEveryMonth', ],
+            'pay_period_start_at' => ['nullable', 'date', 'required_if:pay_period,week,month'],
         ];
     }
 
