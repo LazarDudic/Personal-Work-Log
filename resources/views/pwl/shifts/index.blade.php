@@ -83,14 +83,16 @@
                             <td class="align-middle">{{ convert_minutes_to_hours($shift->total_working_minutes) }}</td>
                             <td class="align-middle">{{ convert_minutes_to_hours($shift->break_minutes) }}</td>
                             @if($job->tracking->wage)
-                                <td class="align-middle">${{ $shift->total_earnings }}</td>
-                                <td class="align-middle">${{ $shift->regular_earnings }}</td>
+                                <td class="align-middle">{{ $shift->total_earnings ? '$'.$shift->total_earnings : '-' }}</td>
+                                <td class="align-middle">{{ $shift->regular_earnings ? '$'.$shift->regular_earnings : '-'}}</td>
                                 @if($job->tracking->overtime)
-                                    <td class="align-middle">${{ $shift->overtime_earnings }}</td>
+                                    <td class="align-middle">{{ $shift->overtime_earnings ? '$'.$shift->overtime_earnings : '-' }}</td>
                                     <td class="align-middle">{{ convert_minutes_to_hours($shift->overtime_minutes) }}</td>
                                 @endif
                                 @if($job->tracking->shift_differential)
-                                    <td class="align-middle">${{ $shift->shift_differential_earnings }}</td>
+                                    <td class="align-middle">
+                                        {{ $shift->shift_differential_earnings ? '$'.$shift->shift_differential_earnings : '-' }}
+                                    </td>
                                     <td class="align-middle">{{ convert_minutes_to_hours($shift->shift_differential_minutes) }}</td>
                                 @endif
                                 @if($job->tracking->tips)
