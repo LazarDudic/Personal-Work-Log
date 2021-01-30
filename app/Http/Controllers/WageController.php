@@ -6,6 +6,7 @@ use App\Http\Requests\Jobs\UpdateWageRequest;
 use App\Models\Job;
 use App\Models\Shift;
 use App\Models\Wage;
+use App\Services\WorkLogCalculator;
 
 class WageController extends Controller
 {
@@ -56,7 +57,12 @@ class WageController extends Controller
     {
         $shifts = Shift::currentPayPeriod($job)->orderByDesc('started_at')->get();
 
+        $calculator = new WorkLogCalculator($shifts);
+
+        $total = $calculator->calculateHoursAndPay();
+
         return view('pwl.wages.pay-period', [
+            'total' => $total,
             'shifts' => $shifts,
             'job' => $job
         ]);
