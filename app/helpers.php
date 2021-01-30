@@ -14,8 +14,18 @@ if (! function_exists('convert_minutes_to_hours')) {
     {
         if (! $minutes) { return '-'; }
 
-        $hours = \Carbon\Carbon::parse($minutes * 60)->format('H:i');
+        $hours = \Carbon\Carbon::now()->diffInHours(\Carbon\Carbon::now()->addMinutes($minutes));
+        $hours = strval($hours);
+        $minutes = $minutes % 60;
 
-        return $hours == '00:00' ? '24:00' : $hours;
+        if (strlen($hours) < 2) {
+            $hours = '0'.$hours;
+        }
+
+        if (strlen($minutes) < 2) {
+            $minutes = '0'.$minutes;
+        }
+
+        return $hours. ':' . $minutes;
     }
 }
