@@ -66,14 +66,20 @@
         @isset($current_job_id)
             <li class="nav-item">
                 <a class="nav-link" href="{{ route('shifts.create') }}">
-                    <i class="fas fa-user-md"></i>
+                    <i class="fas fas fa-stopwatch"></i>
                     <span>New Shift</span>
                 </a>
             </li>
             <li class="nav-item">
                 <a class="nav-link" href="{{ route('shifts.index', $current_job_id) }}">
-                    <i class="fas fa-user-md"></i>
+                    <i class="fas fas fa-clock"></i>
                     <span>Shifts</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="{{ route('wages.pay-period', $current_job_id) }}">
+                    <i class="fas fas fa-money-check-alt"></i>
+                    <span>Pay Period</span>
                 </a>
             </li>
         @endisset

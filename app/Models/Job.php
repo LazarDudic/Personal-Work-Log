@@ -2,7 +2,6 @@
 
 namespace App\Models;
 
-use App\Traits\JobCharacteristics;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Builder;
@@ -10,7 +9,7 @@ use Illuminate\Database\Eloquent\Builder;
 
 class Job extends Model
 {
-    use HasFactory, JobCharacteristics;
+    use HasFactory;
 
     protected $guarded = ['id', 'created_at'];
 
