@@ -15,7 +15,7 @@ class ShiftController extends Controller
      */
     public function index(Job $job)
     {
-        $shifts = Shift::where('job_id', $job->id)->get();
+        $shifts = Shift::where('job_id', $job->id)->paginate(10);
 
         return view('pwl.shifts.index', [
             'shifts' => $shifts,

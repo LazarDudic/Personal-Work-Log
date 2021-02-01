@@ -109,6 +109,8 @@
                     @endforeach
                     </tbody>
                 </table>
+                {{ $shifts->links() }}
+
             </div>
         </div>
     </div>
