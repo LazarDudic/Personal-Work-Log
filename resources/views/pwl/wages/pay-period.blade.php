@@ -179,8 +179,8 @@
                     <tbody>
                     @foreach($shifts as $shift)
                         <tr>
-                            <td class="align-middle">{{ $shift->started_at }}</td>
-                            <td class="align-middle">{{ $shift->finished_at }}</td>
+                            <td class="align-middle">{{ date('d-M-y H:i', strtotime($shift->started_at))  }}</td>
+                            <td class="align-middle">{{ date('d-M H:i', strtotime($shift->finished_at)) }}</td>
                             <td class="align-middle">{{ convert_minutes_to_hours($shift->total_working_minutes) }}</td>
                             <td class="align-middle">{{ convert_minutes_to_hours($shift->break_minutes) }}</td>
                             @if($job->tracking->wage)
