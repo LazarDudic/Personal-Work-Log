@@ -12,5 +12,9 @@ class Wage extends Model
     protected $guarded = ['id'];
     public $timestamps = false;
 
+    public function job()
+    {
+        return $this->belongsTo(Job::class);
+    }
 
 }

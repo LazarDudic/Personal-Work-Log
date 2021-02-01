@@ -4,15 +4,39 @@
 
 <div class="m-auto col-xl-12 col-lg-12 col-md-12 col-sm-12">
     <div class="card shadow mb-4">
-        <div class="card-header py-4">
-            <h6 class="m-0 font-weight-bold text-primary">Pay Period</h6>
+        <div class="card-header py-4 d-flex justify-content-between">
+            <div><h5 class="m-0 font-weight-bold text-primary">Total</h5></div>
+                <div>
+                    @include('partials.messages')
+                    <form action="{{ route('wages.pay-period', $job->id) }}" method="POST">
+                        @csrf
+                        <div class="d-xl-flex d-lg-flex">
+                            <select name="pay_period" id="" class="form-control mb-1" >
+                                <option selected>Current</option>
+                                @if($payPeriodDates)
+                                    @foreach($payPeriodDates as $dates)
+                                    <option value="{{ json_encode($dates) }}"
+                                    {{ session()->get('selected') == $dates ? 'selected' : ''}}
+                                    >
+                                        {{ date('d-M-y', strtotime($dates['started_at'])) }}
+                                        {{ ' / ' }}
+                                        {{ date('d-M-y', strtotime($dates['finished_at'])) }}
+                                    </option>
+                                    @endforeach
+                                @endif
+                            </select>
+                            <button class="btn btn-info ml-2 float-right">History</button>
+                        </div>
+
+                    </form>
+                </div>
         </div>
+
         <div class="card-body">
             <div class="table-responsive align-middle text-center">
                 <table class="table table-sm table-bordered" id="dataTable" width="100%" cellspacing="0">
                     <thead>
                     <tr>
-                        <th class="align-middle">#</th>
                         <th class="align-middle">Working Hours</th>
                         <th class="align-middle">Break Hours</th>
                         @if($job->tracking->wage)
@@ -45,10 +69,7 @@
                     </thead>
 
                     <tbody>
-
-                    {{--Total--}}
                     <tr>
-                        <td class="align-middle">Total:</td>
                         <td class="align-middle">{{ $total['total_working_minutes'] }}</td>
                         <td class="align-middle">{{ $total['break_minutes'] }}</td>
                         @if($job->tracking->wage)
@@ -76,8 +97,17 @@
                     </tr>
                     </tbody>
                 </table>
+            </div>
+        </div>
+    </div>
 
+    <div class="card shadow mb-4">
+        <div class="card-header py-4 d-flex justify-content-between">
+            <h5 class="m-0 font-weight-bold text-primary">Pay Period Shifts</h5>
+        </div>
 
+        <div class="card-body">
+            <div class="table-responsive align-middle text-center">
                 <table class="table table-sm table-bordered" id="dataTable" width="100%" cellspacing="0">
                     <thead>
                     <tr>
@@ -115,8 +145,8 @@
                     </thead>
                     <tfoot>
                     <tr>
-                        <th class="align-middle"></th>
-                        <th class="align-middle">Total:</th>
+                        <th class="align-middle">Started At</th>
+                        <th class="align-middle">Finished At</th>
                         <th class="align-middle">Working Hours</th>
                         <th class="align-middle">Break Hours</th>
                         @if($job->tracking->wage)
@@ -132,6 +162,7 @@
                                 <th class="align-middle">Differential Pay</th>
                                 <th class="align-middle">Differential Hours</th>
                             @endif
+
                             @if($job->tracking->tips)
                                 <th class="align-middle">Tips</th>
                             @endif

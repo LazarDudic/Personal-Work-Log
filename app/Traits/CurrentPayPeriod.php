@@ -16,7 +16,7 @@ trait CurrentPayPeriod
         $this->timeZone = $job->user->timezone;
 
         if ($job->wage->pay_period == 'week') {
-            $startedAt = $this->getWeekPayPeriod();
+            $startedAt = $this->currentWeekPayPeriod();
 
             return static::where(function ($query) use ($startedAt) {
                 $query->where('started_at', '>', $startedAt);
@@ -24,7 +24,7 @@ trait CurrentPayPeriod
         }
 
         if ($job->wage->pay_period == 'month') {
-            $startedAt = $this->getMonthPayPeriod();
+            $startedAt = $this->currentMonthPayPeriod();
 
             return static::where(function ($query) use ($startedAt) {
                 $query->where('started_at', '>', $startedAt);
@@ -32,7 +32,7 @@ trait CurrentPayPeriod
         }
 
         if ($job->wage->pay_period == 'twiceEveryMonth') {
-            $startedAt = $this->getTwiceEveryMonthPayPeriod();
+            $startedAt = $this->currentTwiceEveryMonthPayPeriod();
 
             return static::where(function ($query) use ($startedAt) {
                 $query->where('started_at', '>', $startedAt);
@@ -40,7 +40,7 @@ trait CurrentPayPeriod
         }
     }
 
-    private function getWeekPayPeriod()
+    private function currentWeekPayPeriod()
     {
         $time = $this->job->wage->time_lenght ?? 1;
         $startAt = Carbon::parse($this->job->wage->pay_period_start_at);
@@ -52,7 +52,7 @@ trait CurrentPayPeriod
         return Carbon::now($this->timeZone)->subDays($diffInDays)->format('Y-m-d');
     }
 
-    private function getMonthPayPeriod()
+    private function currentMonthPayPeriod()
     {
         $time = $this->job->wage->time_lenght ?? 1;
         $startAt = Carbon::parse($this->job->wage->pay_period_start_at);
@@ -65,7 +65,7 @@ trait CurrentPayPeriod
         return Carbon::now($this->timeZone)->subDays($diffInDays)->format('Y-m-d');
     }
 
-    private function getTwiceEveryMonthPayPeriod()
+    private function currentTwiceEveryMonthPayPeriod()
     {
         $now = Carbon::now($this->timeZone)->format('d');
 

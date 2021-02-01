@@ -36,6 +36,7 @@ class Job extends Model
         return $this->hasOne(Overtime::class);
     }
 
+
     public function shiftDifferential()
     {
         return $this->hasOne(ShiftDifferential::class);
@@ -49,5 +50,10 @@ class Job extends Model
     public function user()
     {
         return $this->belongsTo(User::class);
+    }
+
+    public function shifts()
+    {
+        return $this->hasMany(Shift::class);
     }
 }

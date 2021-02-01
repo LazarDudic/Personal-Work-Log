@@ -36,7 +36,7 @@ Route::middleware('auth')->group(function () {
         ->name('wages.edit');
     Route::patch('wages/{job}', [App\Http\Controllers\WageController::class, 'update'])
         ->name('wages.update');
-    Route::get('wages/{job}/pay-period', [App\Http\Controllers\WageController::class, 'getPayPeriod'])
+    Route::match(['post', 'get'],'wages/{job}/pay-period', [App\Http\Controllers\WageController::class, 'getPayPeriod'])
         ->name('wages.pay-period');
 
     //Overtime

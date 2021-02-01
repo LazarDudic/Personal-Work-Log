@@ -6,8 +6,13 @@ use App\Http\Requests\Jobs\UpdateWageRequest;
 use App\Models\Job;
 use App\Models\Shift;
 use App\Models\Wage;
+use App\Services\PayPeriodHistory;
 use App\Services\WorkLogCalculator;
 
+/**
+ * Class WageController
+ * @package App\Http\Controllers
+ */
 class WageController extends Controller
 {
 
@@ -52,23 +57,46 @@ class WageController extends Controller
 
     /**
      * @param Job $job
+     * @return \Illuminate\Contracts\View\View
      */
     public function getPayPeriod(Job $job)
     {
-        $shifts = Shift::currentPayPeriod($job)->orderByDesc('started_at')->get();
+        $shifts = $this->getPayPeriodShifts($job);
 
         $calculator = new WorkLogCalculator($shifts);
-
         $total = $calculator->calculateHoursAndPay();
+        $payPeriodHistory = new PayPeriodHistory($job->wage);
+        $payPeriodDates = array_reverse($payPeriodHistory->getDates());
 
         return view('pwl.wages.pay-period', [
             'total' => $total,
             'shifts' => $shifts,
-            'job' => $job
+            'job' => $job,
+            'payPeriodDates' => $payPeriodDates
         ]);
     }
 
 
+    /**
+     * @param Job $job
+     * @return mixed
+     */
+    private function getPayPeriodShifts(Job $job)
+    {
+        if (\request()->has('pay_period') && \request()->get('pay_period') !== 'Current') {
+            $requestedPayPeriod = json_decode(request()->pay_period, true);
+            session()->put('selected', $requestedPayPeriod);
+
+            return Shift::where('job_id', $job->id)
+                ->whereBetween('started_at', array_values($requestedPayPeriod))
+                ->get();
+        }
+
+        session()->put('selected', null);
+
+        return Shift::currentPayPeriod($job)->orderByDesc('started_at')->get();
+
+    }
 
 
 }
