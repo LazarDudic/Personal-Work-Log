@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\Jobs\SearchShiftRequest;
 use App\Models\Job;
 use App\Models\Shift;
 
@@ -36,5 +37,24 @@ class ShiftController extends Controller
             'job' => $job
         ]);
     }
+
+    public function search(SearchShiftRequest $request, Job $job)
+    {
+        if ($request->isMethod('post')) {
+            $shifts = Shift::where('job_id', $job->id)
+                ->whereBetween('started_at', array_values($request->validated()))
+                ->paginate(10);
+        }   else {
+            $shifts = Shift::where('job_id', $job->id)->paginate(10);
+        }
+
+
+        return view('pwl.shifts.index', [
+            'shifts' => $shifts,
+            'job' => $job
+        ]);
+    }
+
+
 
 }

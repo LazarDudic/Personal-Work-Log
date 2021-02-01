@@ -53,6 +53,7 @@ Route::middleware('auth')->group(function () {
 
     // Shifts
     Route::get('shifts/{job}/index', [App\Http\Controllers\ShiftController::class, 'index'])->name('shifts.index');
+    Route::match(['post', 'get'],'shifts/{job}/search', [App\Http\Controllers\ShiftController::class, 'search'])->name('shifts.search');
     Route::resource('shifts', App\Http\Controllers\ShiftController::class)->only('create');
 
     // Tracking

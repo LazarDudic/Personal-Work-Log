@@ -4,7 +4,17 @@
     <div class="m-auto col-xl-12 col-lg-12 col-md-12 col-sm-12">
     <div class="card shadow mb-4">
         <div class="card-header py-4">
-            <h6 class="m-0 font-weight-bold text-primary">Shifts</h6>
+            <h5 class="m-0 font-weight-bold text-primary">Shifts</h5>
+            <form action="{{ route('shifts.search', $job->id) }}" method="POST" class="form-inline">
+                @csrf
+                <div class="form-group mb-2">
+                    <input type="date" name="started_at" class="form-control" value="{{ request('started_at') }}">
+                </div>
+                <div class="form-group mx-sm-3 mb-2">
+                    <input type="date" name="finished_at" class="form-control" value="{{ request('finished_at') }}">
+                </div>
+                <button type="submit" class="btn btn-primary mb-2"><i class="fas fa-search"></i></button>
+            </form>
         </div>
         <div class="card-body">
             <div class="table-responsive align-middle text-center">
