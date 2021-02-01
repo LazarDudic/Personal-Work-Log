@@ -8,6 +8,7 @@ use App\Models\Shift;
 use App\Models\Wage;
 use App\Services\PayPeriodHistory;
 use App\Services\WorkLogCalculator;
+use http\Env\Response;
 
 /**
  * Class WageController
@@ -84,7 +85,8 @@ class WageController extends Controller
     private function getPayPeriodShifts(Job $job)
     {
         if (\request()->has('pay_period') && \request()->get('pay_period') !== 'Current') {
-            $requestedPayPeriod = json_decode(request()->pay_period, true);
+
+            $requestedPayPeriod = $this->validateRequestedPayPeriod();
             session()->put('selected', $requestedPayPeriod);
 
             return Shift::where('job_id', $job->id)
@@ -95,8 +97,20 @@ class WageController extends Controller
         session()->put('selected', null);
 
         return Shift::currentPayPeriod($job)->orderByDesc('started_at')->get();
-
     }
 
+    /**
+     * @return mixed
+     */
+    private function validateRequestedPayPeriod(): array
+    {
+        $requestedPayPeriod = json_decode(request()->pay_period, true);
 
+        abort_if($requestedPayPeriod == null, 404);
+        abort_if((bool)array_intersect(['started_at', 'finished_at'], array_keys($requestedPayPeriod)) == false, 404);
+        abort_if(preg_match('/^[0-9]{4}-[0-9]{2}-[0-9]{2}$/', $requestedPayPeriod['started_at']) == 0, 404);
+        abort_if(preg_match('/^[0-9]{4}-[0-9]{2}-[0-9]{2}$/', $requestedPayPeriod['finished_at']) == 0, 404);
+
+        return $requestedPayPeriod;
+    }
 }
