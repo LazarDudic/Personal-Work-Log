@@ -85,16 +85,12 @@ class WageController extends Controller
     private function getPayPeriodShifts(Job $job)
     {
         if (\request()->has('pay_period') && \request()->get('pay_period') !== 'Current') {
-
             $requestedPayPeriod = $this->validateRequestedPayPeriod();
-            session()->put('selected', $requestedPayPeriod);
 
             return Shift::where('job_id', $job->id)
                 ->whereBetween('started_at', array_values($requestedPayPeriod))
                 ->get();
         }
-
-        session()->put('selected', null);
 
         return Shift::currentPayPeriod($job)->orderByDesc('started_at')->get();
     }

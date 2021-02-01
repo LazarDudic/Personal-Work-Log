@@ -11,12 +11,12 @@
                     <form action="{{ route('wages.pay-period', $job->id) }}" method="POST">
                         @csrf
                         <div class="d-xl-flex d-lg-flex">
-                            <select name="pay_period" id="" class="form-control mb-1" >
+                            <select name="pay_period" id="" class="form-control mb-1">
                                 <option selected>Current</option>
                                 @if($payPeriodDates)
                                     @foreach($payPeriodDates as $dates)
                                     <option value="{{ json_encode($dates) }}"
-                                    {{ session()->get('selected') == $dates ? 'selected' : ''}}
+                                    {{ request('pay_period') == json_encode($dates) ? 'selected' : ''}}
                                     >
                                         {{ date('d-M-y', strtotime($dates['started_at'])) }}
                                         {{ ' / ' }}
