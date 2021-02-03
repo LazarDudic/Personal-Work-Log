@@ -92,7 +92,7 @@ class WageController extends Controller
                 ->get();
         }
 
-        return Shift::currentPayPeriod($job)->orderByDesc('started_at')->get();
+        return Shift::currentPayPeriod($job)->get();
     }
 
     /**
