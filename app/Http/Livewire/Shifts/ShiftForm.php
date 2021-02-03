@@ -27,7 +27,6 @@ class ShiftForm extends Component
         'tips'          => ['nullable','numeric'],
         'bonuses'       => ['nullable','numeric'],
         'expenses'      => ['nullable','numeric'],
-
     ];
 
     protected $messages = [
@@ -39,8 +38,13 @@ class ShiftForm extends Component
     public function saveShift()
     {
         $validateData = $this->validate();
+
         if ($this->shiftMustBeMax24H() > 1440) {
             return $this->addError('finished_at', 'Shift can not be longer than 24h.');
+        }
+
+        if ($this->shiftOverlap() === true) {
+            return $this->addError('finished_at', 'Cannot have two shifts at the same time.');
         }
 
         $validateData['job_id'] = $this->job->id;
@@ -66,6 +70,11 @@ class ShiftForm extends Component
         $finished = Carbon::parse($this->finished_at);
 
         return $started->diffInMinutes($finished);
+    }
+
+    private function shiftOverlap()
+    {
+        return Shift::where('finished_at', '>', $this->started_at)->count() > 0;
     }
 
     public function render()
