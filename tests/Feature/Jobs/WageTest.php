@@ -74,38 +74,47 @@ class WageTest extends TestCase
             'wage' => 1,
             'hourly_rate' => 10,
             'time_length' => 5,
-            'pay_period' => 'week'
+            'pay_period' => 'week',
+            'pay_period_start_at' => now()->subMonth()
         ]);
 
         $job = Job::first();
+
         $this->assertEquals(1, $job->tracking->wage);
         $this->assertEquals(10, $job->wage->hourly_rate);
         $this->assertEquals(5, $job->wage->time_length);
         $this->assertEquals('week', $job->wage->pay_period);
+        $this->assertEquals(now()->subMonth(), $job->wage->pay_period_start_at);
 
         $this->patch(route('wages.update', $job->id), [
             'hourly_rate' => 15,
             'time_length' => null,
-            'pay_period' => 'month'
+            'pay_period' => 'month',
+            'pay_period_start_at' => now()->subMonths(2)
         ]);
 
         $job = Job::first();
+
         $this->assertEquals(0, $job->tracking->wage);
         $this->assertEquals(15, $job->wage->hourly_rate);
         $this->assertEquals(null, $job->wage->time_length);
         $this->assertEquals('month', $job->wage->pay_period);
+        $this->assertEquals(now()->subMonths(2), $job->wage->pay_period_start_at);
+
     }
     /** @test */
     public function tracking_wage_mutator_converts_value_to_1()
     {
         $job = $this->createJob();
+
         $this->assertEquals(0, $job->tracking->wage);
 
         $this->patch(route('wages.update', $job->id), [
             'wage' => 'on',
             'hourly_rate' => 15,
             'time_length' => null,
-            'pay_period' => 'month'
+            'pay_period' => 'month',
+            'pay_period_start_at' => now()->subMonth()
         ]);
 
         $job = Job::first();
