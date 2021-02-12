@@ -70,11 +70,14 @@ class PayPeriodHistory
     public function twiceEveryMonthPayPeriodHistory() : array
     {
         $jobStarted = $this->wage->job->created_at;
-
         $monthStarted = $this->getMonthStarted($jobStarted);
+        $today = Carbon::now(\auth()->user()->timezone);
 
-        $diffInMonths = $monthStarted->diffInMonths(Carbon::now(\auth()->user()->timezone));
+        $diffInMonths = $monthStarted->diffInMonths($today);
+
         $countPayPeriods = $diffInMonths * 2;
+        $countPayPeriods = ($today->format('d') > 15) ? $countPayPeriods + 1 : $countPayPeriods;
+
         $c = 0;
         $payPeriodDates = [];
 
