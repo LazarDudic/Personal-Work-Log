@@ -14,15 +14,23 @@ class ShiftClock extends Component
     public $break = false;
     public $breakTotal = 0;
     public $breakStarted = null;
-    public $newBreakStarted = null;
-    public $breakPauseTotal = 0;
-    public $breakPauseStarted = null;
+
+    public function mount()
+    {
+        if (session()->has('shiftStarted')) {
+            $this->clockedIn = true;
+            $this->shiftStarted = session()->get('shiftStarted');
+            $this->break = session()->get('break') ?? false;
+            $this->breakStarted = session()->get('breakStarted');
+        }
+    }
 
     public function clockIn()
     {
         $this->clockedIn = true;
 
         $this->shiftStarted = $this->now();
+        session(['shiftStarted' => $this->shiftStarted]);
     }
 
     public function clockOut()
@@ -41,43 +49,34 @@ class ShiftClock extends Component
      */
     public function breakTotal()
     {
-        $countBrakes = $this->countBrakes();
-
-        $this->breakTotal = $this->now()->timestamp - $countBrakes;
+        if ($this->break == false) {
+            $this->breakTotal = session()->get('oldBreakTotal');
+        } else {
+            $oldBreakTotal = session()->get('oldBreakTotal');
+            $this->breakTotal = ($this->now()->timestamp - $this->breakStarted->timestamp) + $oldBreakTotal;
+        }
     }
 
     public function breakStart()
     {
-        $this->breakStarted ??= $this->now();
-        $this->newBreakStarted = $this->now();
+        $this->breakStarted = $this->now();
+        session(['breakStarted' => $this->breakStarted]);
 
         $this->break = true;
+        session(['break' => true]);
     }
 
     public function breakPause()
     {
         $this->break = false;
-        $this->breakPauseStarted = $this->now();
-        $this->newBreakStarted = null;
+        $this->breakStarted = null;
+
+        session()->forget('break');
+        session()->forget('breakStarted');
+        session(['oldBreakTotal' => $this->breakTotal]);
     }
 
-    /**
-     * Count total time of previous breaks
-     */
-    private function countBrakes()
-    {
-        $breakCount = $this->breakStarted->timestamp + $this->breakPauseTotal;
-
-        if ($this->breakPauseStarted) {
-            $this->breakPauseTotal += $this->now()->timestamp - $this->breakPauseStarted->timestamp;
-            $breakCount = $this->breakStarted->timestamp + $this->breakPauseTotal;
-            $this->breakPauseStarted = null;
-        }
-
-        return $breakCount;
-    }
-
-      public function getBreakTimeInMinutes()
+    public function getBreakTimeInMinutes()
     {
         return round($this->breakTotal / 60);
     }
@@ -91,5 +90,4 @@ class ShiftClock extends Component
     {
         return view('livewire.shifts.shift-clock');
     }
-
 }

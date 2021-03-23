@@ -21,12 +21,12 @@ class ShiftForm extends Component
     public $expenses;
 
     protected $rules = [
-        'started_at'    => ['required','date'],
-        'finished_at'   => ['required','date', 'after:started_at'],
-        'break_minutes' => ['required','integer'],
-        'tips'          => ['nullable','numeric'],
-        'bonuses'       => ['nullable','numeric'],
-        'expenses'      => ['nullable','numeric'],
+        'started_at'    => ['required', 'date'],
+        'finished_at'   => ['required', 'date', 'after:started_at'],
+        'break_minutes' => ['required', 'integer'],
+        'tips'          => ['nullable', 'numeric'],
+        'bonuses'       => ['nullable', 'numeric'],
+        'expenses'      => ['nullable', 'numeric'],
     ];
 
     protected $messages = [
@@ -40,6 +40,7 @@ class ShiftForm extends Component
         $validateData = $this->validate();
 
         if ($this->shiftMustBeMax24H() > 1440) {
+
             return $this->addError('finished_at', 'Shift can not be longer than 24h.');
         }
 
@@ -52,16 +53,18 @@ class ShiftForm extends Component
         $shift = Shift::create($validateData);
         $shift->calculate($this->job);
 
+        $this->unsetShiftSession();
+
         session()->flash('success', 'Shift saved successfully.');
         return redirect()->to(route('shifts.index', $this->job->id));
     }
 
     public function clockedOut($shiftStarted, $shiftEnded, $totalBreak)
     {
-        $this->started_at  = $shiftStarted;
+        $this->started_at = $shiftStarted;
         $this->finished_at = $shiftEnded;
-        $this->break_minutes  = $totalBreak;
-        $this->clockedOut  = true;
+        $this->break_minutes = $totalBreak;
+        $this->clockedOut = true;
     }
 
     public function shiftMustBeMax24H()
@@ -69,12 +72,21 @@ class ShiftForm extends Component
         $started = Carbon::parse($this->started_at);
         $finished = Carbon::parse($this->finished_at);
 
+
         return $started->diffInMinutes($finished);
     }
 
     private function shiftOverlap()
     {
         return Shift::where('finished_at', '>', $this->started_at)->count() > 0;
+    }
+
+    private function unsetShiftSession() : void
+    {
+        session()->forget('shiftStarted');
+        session()->forget('break');
+        session()->forget('breakStarted');
+        session()->forget('oldBreakTotal');
     }
 
     public function render()
