@@ -6,21 +6,38 @@
     <div class="card shadow mb-4">
         <div class="card-header py-4 d-flex justify-content-between">
             <div><h5 class="m-0 font-weight-bold text-primary">Total</h5></div>
+            <div>
+                <a href="{{ route('wages.export', [$job->id, 'xlsx']) }}?pay_period={{ request('pay_period') ??
+                'Current'
+                 }}"
+                   class="btn-success btn-sm btn">
+                    Excel
+                </a>
+                <a href="{{ route('wages.export', [$job->id, 'pdf']) }}?pay_period={{ request('pay_period') ??
+                'Current'
+                 }}"
+                   class="btn-danger btn-sm btn">
+                    PDF
+                </a>
+            </div>
                 <div>
                     @include('partials.messages')
-                    <form action="{{ route('wages.pay-period', $job->id) }}" method="POST">
-                        @csrf
+                    <form action="{{ route('wages.pay-period', $job->id) }}" method="GET">
                         <div class="d-xl-flex d-lg-flex">
                             <select name="pay_period" id="" class="form-control mb-1">
                                 <option selected>Current</option>
                                 @if($payPeriodDates)
                                     @foreach($payPeriodDates as $dates)
-                                    <option value="{{ json_encode($dates) }}"
-                                    {{ request('pay_period') == json_encode($dates) ? 'selected' : ''}}
+
+                                    <option value="{{ $dates['started_at'] }}_{{$dates['started_at']}}"
+                                    {{ request('pay_period') == $dates['started_at'].'_'.$dates['started_at']
+                                        ? 'selected'
+                                        : ''
+                                    }}
                                     >
-                                        {{ date('d-M-y', strtotime($dates['started_at'])) }}
+                                        {{ date('d-m-y', strtotime($dates['started_at'])) }}
                                         {{ ' / ' }}
-                                        {{ date('d-M-y', strtotime($dates['finished_at'])) }}
+                                        {{ date('d-m-y', strtotime($dates['finished_at'])) }}
                                     </option>
                                     @endforeach
                                 @endif

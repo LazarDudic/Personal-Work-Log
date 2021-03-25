@@ -8,7 +8,8 @@ use App\Models\Shift;
 use App\Models\Wage;
 use App\Services\PayPeriodHistory;
 use App\Services\WorkLogCalculator;
-use http\Env\Response;
+use Maatwebsite\Excel\Facades\Excel;
+use App\Exports\PayPeriodExport;
 
 /**
  * Class WageController
@@ -80,6 +81,28 @@ class WageController extends Controller
 
     /**
      * @param Job $job
+     * @param $fileExtension
+     * @return \Symfony\Component\HttpFoundation\BinaryFileResponse
+     */
+    public function export(Job $job, $fileExtension)
+    {
+        abort_if(! in_array($fileExtension, ['xlsx', 'pdf']), 404);
+
+        $shifts = $this->getPayPeriodShifts($job);
+        $calculator = new WorkLogCalculator($shifts);
+        $total = $calculator->calculateHoursAndPay();
+
+        $fileName = request('pay_period') . '.' . $fileExtension;
+        $constant = $fileExtension === 'xlsx'
+            ?  \Maatwebsite\Excel\Excel::XLSX
+            :  \Maatwebsite\Excel\Excel::DOMPDF;
+
+        return Excel::download(new PayPeriodExport($total), $fileName, $constant);
+    }
+
+
+    /**
+     * @param Job $job
      * @return mixed
      */
     private function getPayPeriodShifts(Job $job)
@@ -95,17 +118,18 @@ class WageController extends Controller
         return Shift::currentPayPeriod($job)->get();
     }
 
+
+
     /**
      * @return mixed
      */
     private function validateRequestedPayPeriod(): array
     {
-        $requestedPayPeriod = json_decode(request()->pay_period, true);
+        $requestedPayPeriod = explode('_', request()->pay_period);
 
-        abort_if($requestedPayPeriod == null, 404);
-        abort_if((bool)array_intersect(['started_at', 'finished_at'], array_keys($requestedPayPeriod)) == false, 404);
-        abort_if(preg_match('/^[0-9]{4}-[0-9]{2}-[0-9]{2}$/', $requestedPayPeriod['started_at']) == 0, 404);
-        abort_if(preg_match('/^[0-9]{4}-[0-9]{2}-[0-9]{2}$/', $requestedPayPeriod['finished_at']) == 0, 404);
+        abort_if(count($requestedPayPeriod) != 2, 404);
+        abort_if(preg_match('/^[0-9]{4}-[0-9]{2}-[0-9]{2}$/', $requestedPayPeriod[0]) == 0, 404);
+        abort_if(preg_match('/^[0-9]{4}-[0-9]{2}-[0-9]{2}$/', $requestedPayPeriod[1]) == 0, 404);
 
         return $requestedPayPeriod;
     }
