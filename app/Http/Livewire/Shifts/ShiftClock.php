@@ -25,6 +25,16 @@ class ShiftClock extends Component
         }
     }
 
+    public function cancel()
+    {
+        $this->reset(['clockedIn', 'shiftStarted', 'break', 'breakStarted']);
+
+        session()->forget('shiftStarted');
+        session()->forget('break');
+        session()->forget('breakStarted');
+        session()->forget('oldBreakTotal');
+    }
+
     public function clockIn()
     {
         $this->clockedIn = true;
@@ -43,6 +53,8 @@ class ShiftClock extends Component
             $this->getBreakTimeInMinutes()
         );
     }
+
+
 
     /**
      * Live break count

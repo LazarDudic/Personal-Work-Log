@@ -8,6 +8,8 @@
         <div class="d-flex justify-content-center">
             <a href="#" wire:click.prevent="clockOut()"
                class="btn btn-primary btn-lg mb-4">Clock Out</a>
+            <a href="#" wire:click.prevent="cancel()"
+               class="btn btn-link btn-lg mb-4">Cancel</a>
         </div>
 
         <div class=" d-block">
