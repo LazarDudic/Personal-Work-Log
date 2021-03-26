@@ -45,7 +45,7 @@ class ShiftForm extends Component
         }
 
         if ($this->shiftOverlap() === true) {
-            return $this->addError('finished_at', 'Cannot have two shifts at the same time.');
+            return $this->addError('finished_at', 'Shift start must be after finish time of all other shifts.');
         }
 
         $validateData['job_id'] = $this->job->id;
@@ -78,7 +78,9 @@ class ShiftForm extends Component
 
     private function shiftOverlap()
     {
-        return Shift::where('finished_at', '>', $this->started_at)->count() > 0;
+        return Shift::where('finished_at', '>', $this->started_at)
+                ->where('job_id', $this->job->id)
+                ->count() > 0;
     }
 
     private function unsetShiftSession() : void

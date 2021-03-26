@@ -24,11 +24,13 @@
             <div class="form-group d-flex">
                 <div class="mr-2">
                     <span class="badge">Starts At</span>
-                    <input  type="time" name="start_at" class="form-control" value="{{ $shiftDifferential->start_at }}">
+                    <input  type="time" name="start_at" class="form-control"
+                            value="{{ old('start_at') ?? $shiftDifferential->start_at }}">
                 </div>
                 <div>
                     <span class="badge">Ends At</span>
-                    <input type="time" name="finish_at" class="form-control" value="{{ $shiftDifferential->finish_at }}">
+                    <input type="time" name="finish_at" class="form-control"
+                           value="{{ old('finish_at') ??  $shiftDifferential->finish_at }}">
                 </div>
             </div>
             <hr>
@@ -37,12 +39,12 @@
                 <div class="mr-xl-2">
                     <span class="badge">Currency Amount</span>
                     <input name="currency_amount" class="form-control" type="number" step="any"
-                           value="{{ $shiftDifferential->currency_amount }}">
+                           value="{{ old('currency_amount') ?? $shiftDifferential->currency_amount }}">
                 </div>
                 <div>
                     <span class="badge">Percentage</span>
                     <input name="percentage" class="form-control" type="number"
-                           value="{{ $shiftDifferential->percentage }}">
+                           value="{{ old('percentage') ?? $shiftDifferential->percentage }}">
                 </div>
             </div>
             <hr>

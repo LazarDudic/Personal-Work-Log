@@ -18,24 +18,28 @@ trait CurrentPayPeriod
         if ($job->wage->pay_period == 'week') {
             $startedAt = $this->currentWeekPayPeriod();
 
-            return static::where(function ($query) use ($startedAt) {
+            return $this->where(function ($query) use ($startedAt) {
                 $query->where('started_at', '>', $startedAt);
+                $query->where('job_id', $this->job->id);
             });
         }
 
         if ($job->wage->pay_period == 'month') {
             $startedAt = $this->currentMonthPayPeriod();
 
-            return static::where(function ($query) use ($startedAt) {
+            return $this->wherewhere(function ($query) use ($startedAt) {
                 $query->where('started_at', '>', $startedAt);
+                $query->where('job_id', $this->job->id);
+
             });
         }
 
         if ($job->wage->pay_period == 'twiceEveryMonth') {
             $startedAt = $this->currentTwiceEveryMonthPayPeriod();
 
-            return static::where(function ($query) use ($startedAt) {
+            return $this->where(function ($query) use ($startedAt) {
                 $query->where('started_at', '>', $startedAt);
+                $query->where('job_id', $this->job->id);
             });
         }
     }
